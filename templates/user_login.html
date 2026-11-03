@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}User Sign In - TamScam Radar{% endblock %}
+
+{% block content %}
+<div class="auth-center-layout animate-slide-up">
+    <div class="glass-card auth-box">
+        <a href="{{ url_for('portal_select') }}" class="back-link">&larr; Back to Gateways</a>
+        
+        <div class="auth-header">
+            <h2 class="auth-title">Candidate Sign In</h2>
+            <p class="auth-subtitle">Access your personal TamScam Radar scanning console.</p>
+        </div>
+
+        <form action="{{ url_for('user_login') }}" method="POST" class="auth-form strict-validate" novalidate>
+            <div class="input-field-group">
+                <label for="email">Email Address <span class="req">*</span></label>
+                <input type="email" id="email" name="email" placeholder="abc@example.com" required autofocus autocomplete="off">
+            </div>
+
+            <div class="input-field-group">
+                <label for="password">Password <span class="req">*</span></label>
+                <input type="password" id="password" name="password" placeholder="••••••••" required>
+            </div>
+
+            <button type="submit" class="btn btn-glow btn-full mt-4">
+                <span>Authenticate & Access</span>
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            New applicant? <a href="{{ url_for('user_register') }}" class="link-glow">Create account</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

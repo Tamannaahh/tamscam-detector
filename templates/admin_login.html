@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Admin Access - JobScamScore{% endblock %}
+
+{% block content %}
+<div class="auth-center-layout animate-slide-up">
+    <div class="glass-card auth-box admin-auth-card">
+        <a href="{{ url_for('portal_select') }}" class="back-link">&larr; Back to Portal Selection</a>
+        
+        <div class="admin-lock-tag">
+            <span>RESTRICTED TERMINAL</span>
+        </div>
+
+        <div class="auth-header">
+            <h2 class="auth-title">Admin Console</h2>
+            <p class="auth-subtitle">Fixed security master account authentication.</p>
+        </div>
+
+        <form action="{{ url_for('admin_login') }}" method="POST" class="auth-form strict-validate" novalidate>
+            <div class="input-field-group">
+                <label for="username">Administrator Username <span class="req">*</span></label>
+                <div class="input-wrapper">
+                    <input type="text" id="username" name="username" placeholder="Tamannah" required autofocus>
+                </div>
+            </div>
+
+            <div class="input-field-group">
+                <label for="password">Master Password <span class="req">*</span></label>
+                <div class="input-wrapper">
+                    <input type="password" id="password" name="password" placeholder="Tamannah@10" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-danger-glow btn-full mt-4">
+                <span>Authenticate Root Credentials</span>
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

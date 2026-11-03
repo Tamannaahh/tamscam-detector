@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block title %}Access Gateway - TamScam Detector{% endblock %}
+
+{% block content %}
+<!-- Live Scam Alert Banner -->
+<div class="threat-ticker-wrap">
+    <div class="ticker-badge"><span class="pulse-red"></span> Recent Scam Alerts</div>
+    <div class="threat-ticker">
+        <div class="ticker-content">
+            <span>⚠ ALERT: Fake part-time jobs asking for Telegram tasks detected</span>
+            <span>✦ Trained on 86,933 Real Recruitment Records</span>
+            <span>⚠ ALERT: Fake job offer letters using big company names</span>
+            <span>✦ Powered by Linear SVM + Deep Neural Network</span>
+            <span>⚠ WARNING: Never pay money or registration fees for job offers</span>
+        </div>
+    </div>
+</div>
+
+<div class="hero-container animate-fade-in">
+    <div class="hero-badge-container">
+        <span class="cyber-scan-badge">AI FAKE JOB DETECTION SYSTEM</span>
+    </div>
+
+    <!-- Clear Headline -->
+    <h1 class="hero-glitch-title" data-text="STOP FAKE JOB SCAMS">
+        DETECT <span class="glitch-accent" data-text="FAKE JOB SCAMS">FAKE JOB SCAMS</span>
+    </h1>
+    
+    <p class="hero-subtext">
+        Check any job offer in seconds using our machine learning model trained on 86,933 job posts. 
+        Detect fake recruiters, suspicious salary offers, and payment traps before you apply or share personal details.
+    </p>
+
+    <!-- Side-by-Side Portals -->
+    <div class="portal-cards-grid">
+        <!-- Candidate Portal Card -->
+        <div class="glass-card portal-card portal-blue-glow hover-lift">
+            <div class="portal-top">
+                <div class="card-icon-wrap user-gradient">
+                    <span class="card-icon">👤</span>
+                </div>
+                <span class="portal-tag tag-blue">FOR JOB SEEKERS</span>
+                <h3 class="card-title">Candidate Portal</h3>
+                <p class="card-desc">
+                    Paste any job title, company name, and job description to calculate an instant scam score and check for warning signs.
+                </p>
+            </div>
+            
+            <div class="btn-group-stacked mt-4">
+                <a href="{{ url_for('user_login') }}" class="btn btn-glow btn-full">
+                    <span>Login as Candidate &rarr;</span>
+                </a>
+                <a href="{{ url_for('user_register') }}" class="btn btn-subtle btn-full">
+                    <span>Create Free Account</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Security Admin Portal Card -->
+        <div class="glass-card portal-card portal-red-glow hover-lift">
+            <div class="portal-top">
+                <div class="card-icon-wrap admin-gradient">
+                    <span class="card-icon">🔐</span>
+                </div>
+                <span class="portal-tag tag-red">FOR ADMIN</span>
+                <h3 class="card-title">Admin Dashboard</h3>
+                <p class="card-desc">
+                    Access master controls to see total registered users, view every scanned job in the database, and monitor overall fraud statistics.
+                </p>
+            </div>
+
+            <div class="btn-group-stacked mt-4">
+                <a href="{{ url_for('admin_login') }}" class="btn btn-danger-glow btn-full">
+                    <span>Login as Admin &rarr;</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

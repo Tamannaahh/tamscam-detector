@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% block title %}Admin Panel - TamScam Detector{% endblock %}
+
+{% block content %}
+<div class="dashboard-shell animate-fade-in">
+    <!-- Clean Header -->
+    <div class="dashboard-topbar">
+        <div>
+            <h1 class="dash-title">Admin Dashboard</h1>
+            <p class="dash-subtitle">Overview of registered users, scanned job posts, and detection results.</p>
+        </div>
+        <div class="admin-badge-pill">
+            <span>Admin: <strong>{{ username }}</strong></span>
+        </div>
+    </div>
+
+    <!-- Overview Stat Cards -->
+    <div class="admin-stats-grid">
+        <div class="glass-card stat-tile">
+            <span class="stat-label">Registered Users</span>
+            <span class="stat-value text-blue">{{ users|length }}</span>
+            <span class="stat-meta">Total accounts created</span>
+        </div>
+        <div class="glass-card stat-tile">
+            <span class="stat-label">Total Jobs Scanned</span>
+            <span class="stat-value gradient-text">{{ total_scans }}</span>
+            <span class="stat-meta">Analyzed by users</span>
+        </div>
+        <div class="glass-card stat-tile">
+            <span class="stat-label">Scams Detected</span>
+            <span class="stat-value text-red">{{ scam_rate }}%</span>
+            <span class="stat-meta">{{ high_threats + suspicious_count }} of {{ total_scans }} posts flagged</span>
+        </div>
+        <div class="glass-card stat-tile">
+            <span class="stat-label">AI Model Used</span>
+            <span class="stat-value-text">Hybrid Model</span>
+            <span class="stat-meta text-emerald">Linear SVM + DNN (Active)</span>
+        </div>
+    </div>
+
+    <!-- Main Two Tables -->
+    <div class="admin-split-grid mt-6">
+        <!-- 1. Registered Users Table -->
+        <div class="glass-card">
+            <div class="table-header-row">
+                <h3 class="section-heading">Registered Users</h3>
+                <span class="counter-badge">{{ users|length }} Total</span>
+            </div>
+            <div class="table-responsive">
+                <table class="cyber-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Scans</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for u in users %}
+                        <tr>
+                            <td>
+                                <strong class="text-white">{{ u.username }}</strong>
+                                <small class="text-muted d-block">{{ u.created_at.strftime('%d %b %Y') }}</small>
+                            </td>
+                            <td class="text-muted">{{ u.email }}</td>
+                            <td>
+                                <span class="badge-count">{{ u.scans|length }}</span>
+                            </td>
+                            <td>
+                                <form action="{{ url_for('delete_user', user_id=u.id) }}" method="POST" onsubmit="return confirm('Delete this user?');">
+                                    <button type="submit" class="btn-action-delete">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center text-muted py-4">No users registered yet.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 2. Recent Job Scans Table -->
+        <div class="glass-card">
+            <div class="table-header-row">
+                <h3 class="section-heading">Recent Job Scans</h3>
+                {% if scans %}
+                <form action="{{ url_for('clear_all_scans') }}" method="POST" onsubmit="return confirm('Clear all scan history?');">
+                    <button type="submit" class="btn-action-clear">Clear All</button>
+                </form>
+                {% endif %}
+            </div>
+            <div class="table-responsive">
+                <table class="cyber-table">
+                    <thead>
+                        <tr>
+                            <th>Job Title</th>
+                            <th>Company</th>
+                            <th>Score</th>
+                            <th>Result</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for scan in scans %}
+                        <tr>
+                            <td>
+                                <div class="job-title-cell text-truncate" title="{{ scan.job_title }}">
+                                    {{ scan.job_title }}
+                                </div>
+                                <small class="text-muted">By: {{ scan.user.username }}</small>
+                            </td>
+                            <td class="text-muted text-truncate" style="max-width: 100px;">
+                                {{ scan.company_name or 'Not given' }}
+                            </td>
+                            <td>
+                                <span class="score-pill score-{{ scan.status }}">
+                                    {{ scan.scam_score }}/100
+                                </span>
+                            </td>
+                            <td>
+                                <span class="status-pill status-{{ scan.status }}">
+                                    {{ scan.verdict }}
+                                </span>
+                            </td>
+                            <td>
+                                <form action="{{ url_for('delete_scan', scan_id=scan.id) }}" method="POST">
+                                    <button type="submit" class="btn-action-delete" title="Delete scan">&times;</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-4">No jobs scanned yet.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

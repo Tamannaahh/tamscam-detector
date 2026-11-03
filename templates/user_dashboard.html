@@ -1,0 +1,382 @@
+{% extends 'base.html' %}
+{% block title %}Check Job Offer - TamScam Detector{% endblock %}
+
+{% block content %}
+<div class="dashboard-shell animate-fade-in">
+    <!-- Header -->
+    <div class="dashboard-topbar">
+        <div>
+            <h1 class="dash-title">Check a Job Offer</h1>
+            <p class="dash-subtitle">Fill in the job details or upload a PDF/DOCX JD to detect scams with AI.</p>
+        </div>
+        <div class="user-chip">
+            <span>Logged in as: <strong>{{ username }}</strong></span>
+        </div>
+    </div>
+
+    <div class="analyzer-grid">
+        <!-- Input Form Section -->
+        <div class="glass-card input-card">
+            <div class="card-headline">
+                <span class="icon-bubble">📋</span>
+                <h3>Enter Job Details</h3>
+            </div>
+            
+            <div id="scamInputContainer">
+                <!-- Row 1: Title & Company -->
+                <div class="form-row-2">
+                    <div class="input-field-group">
+                        <label for="jobTitle">Job Title <span class="req">*</span></label>
+                        <input type="text" id="jobTitle" placeholder="e.g. Remote Data Entry Assistant" required>
+                    </div>
+                    <div class="input-field-group">
+                        <label for="companyName">Company Name</label>
+                        <input type="text" id="companyName" placeholder="e.g. Apex Tech Solutions">
+                    </div>
+                </div>
+
+                <!-- Row 2: Location & Salary -->
+                <div class="form-row-2">
+                    <div class="input-field-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" placeholder="e.g. Surat, India / Work From Home">
+                    </div>
+                    <div class="input-field-group">
+                        <label for="salaryRange">Offered Salary / Pay</label>
+                        <input type="text" id="salaryRange" placeholder="e.g. ₹35,000/month or $40/hr">
+                    </div>
+                </div>
+
+                <!-- Row 3: Dropdowns -->
+                <div class="form-row-2">
+                    <div class="input-field-group">
+                        <label for="empType">Job Type (Select)</label>
+                        <select id="empType" class="cyber-select">
+                            <option value="Full-time">Full-time</option>
+                            <option value="Part-time">Part-time</option>
+                            <option value="Internship" selected>Internship</option>
+                            <option value="Contract / Freelance">Contract / Freelance</option>
+                            <option value="Temporary">Temporary</option>
+                        </select>
+                    </div>
+                    <div class="input-field-group">
+                        <label for="expLevel">Required Experience (Select)</label>
+                        <select id="expLevel" class="cyber-select">
+                            <option value="No experience / Fresher" selected>No experience required (Fresher)</option>
+                            <option value="Entry Level (0-2 years)">Entry Level (0-2 years)</option>
+                            <option value="Mid Level (2-5 years)">Mid Level (2-5 years)</option>
+                            <option value="Senior Level (5+ years)">Senior Level (5+ years)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Row 4: Work Setup & Money Demands -->
+                <div class="form-row-2 mb-3">
+                    <div class="input-field-group">
+                        <label>Work Setup</label>
+                        <div class="radio-pill-group">
+                            <label class="radio-label">
+                                <input type="radio" name="workMode" value="Work From Home / Remote" checked>
+                                <span>Remote (WFH)</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="workMode" value="On-site / Office">
+                                <span>In Office</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="workMode" value="Hybrid">
+                                <span>Hybrid</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="input-field-group">
+                        <label>Did they ask for any money/fees?</label>
+                        <div class="radio-pill-group">
+                            <label class="radio-label">
+                                <input type="radio" name="feeAsked" value="No fee asked" checked>
+                                <span>No (Free)</span>
+                            </label>
+                            <label class="radio-label danger-radio">
+                                <input type="radio" name="feeAsked" value="Registration fee requested">
+                                <span>Yes (Red Flag!)</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 5: Company Website / Profile -->
+                <div class="input-field-group">
+                    <label for="companyProfile">Company Website or Profile</label>
+                    <input type="text" id="companyProfile" placeholder="e.g. www.company.com or HR email domain">
+                </div>
+
+                <!-- Row 6: Upload PDF / DOCX JD Option -->
+                <div class="input-field-group">
+                    <label for="jdFile">Upload JD File (.pdf, .docx, .txt) <span style="font-weight: normal; color: #8892b0;">(Optional)</span></label>
+                    <input type="file" id="jdFile" accept=".pdf,.docx,.txt" class="cyber-file-input" style="padding: 9px; background: rgba(255,255,255,0.04); border: 1px dashed #3b82f6; border-radius: 8px; width: 100%; color: #fff;">
+                </div>
+
+                <!-- Row 7: Job Description -->
+                <div class="input-field-group">
+                    <label for="jobDesc">Full Job Description & Instructions</label>
+                    <textarea id="jobDesc" rows="4" placeholder="Paste the job responsibilities, hiring steps, and any instructions (or upload a PDF above)..."></textarea>
+                </div>
+
+                <button type="button" id="analyzeBtn" class="btn btn-glow btn-full">
+                    <span id="btnText">Check This Job Now</span>
+                    <span id="btnSpinner" class="hidden">Checking with AI...</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Result Meter Section -->
+        <div class="glass-card score-card">
+            <div class="card-headline">
+                <span class="icon-bubble">🎯</span>
+                <h3>Scam Threat Result</h3>
+            </div>
+
+            <div class="meter-wrapper">
+                <div class="radial-score-box">
+                    <svg class="radial-svg" viewBox="0 0 160 160">
+                        <circle class="circle-bg" cx="80" cy="80" r="70"></circle>
+                        <circle class="circle-progress" id="scoreCircle" cx="80" cy="80" r="70"></circle>
+                    </svg>
+                    <div class="score-number-display">
+                        <span id="scoreValue">--</span>
+                        <span class="score-max">/100</span>
+                    </div>
+                </div>
+
+                <div class="verdict-banner" id="verdictBanner">
+                    <span class="verdict-pill" id="verdictPill">WAITING FOR INPUT</span>
+                    <p class="verdict-desc" id="verdictDesc">Fill in the details on the left and click the button to check the job offer.</p>
+                </div>
+            </div>
+
+            <!-- Warning Signs Checklist -->
+            <div class="scam-checklist">
+                <h4>Quick Warning Signs:</h4>
+                <ul class="checklist-items">
+                    <li id="checkPayment"><span>Asking for Upfront Money / Fees</span> <strong class="badge-neutral">Waiting</strong></li>
+                    <li id="checkChannels"><span>Chatting on Telegram / WhatsApp</span> <strong class="badge-neutral">Waiting</strong></li>
+                    <li id="checkSalary"><span>Unrealistic High Salary for Freshers</span> <strong class="badge-neutral">Waiting</strong></li>
+                    <li id="checkDomain"><span>Public Free Email (Gmail / Yahoo)</span> <strong class="badge-neutral">Waiting</strong></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Scans History Table -->
+    <div class="glass-card history-card mt-6">
+        <h3 class="history-title">Your Recent Checks</h3>
+        <div class="table-responsive">
+            <table class="cyber-table" id="scansTable">
+                <thead>
+                    <tr>
+                        <th>Date & Time</th>
+                        <th>Job Title</th>
+                        <th>Company</th>
+                        <th>Scam Risk</th>
+                        <th>Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for scan in scans %}
+                    <tr>
+                        <td>{{ scan.created_at.strftime('%d %b %Y, %I:%M %p') }}</td>
+                        <td class="font-bold">{{ scan.job_title }}</td>
+                        <td>{{ scan.company_name or 'Not given' }}</td>
+                        <td>
+                            <div class="score-tag score-tag-{{ 'danger' if scan.scam_score >= 65 else ('warning' if scan.scam_score >= 35 else 'success') }}">
+                                {{ scan.scam_score }} / 100
+                            </div>
+                        </td>
+                        <td>
+                            <span class="status-badge status-{{ 'danger' if scan.verdict == 'High Risk' else ('warning' if scan.verdict == 'Suspicious' else 'success') }}">
+                                {{ scan.verdict }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr id="noScansRow">
+                        <td colspan="5" class="text-center py-4 text-muted">No jobs checked yet. Fill out the form above to check your first offer.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const analyzeBtn = document.getElementById('analyzeBtn');
+    if (!analyzeBtn) return;
+
+    const btnText = document.getElementById('btnText');
+    const btnSpinner = document.getElementById('btnSpinner');
+
+    const scoreValue = document.getElementById('scoreValue');
+    const scoreCircle = document.getElementById('scoreCircle');
+    const verdictPill = document.getElementById('verdictPill');
+    const verdictDesc = document.getElementById('verdictDesc');
+
+    analyzeBtn.addEventListener('click', async function (e) {
+        e.preventDefault();
+
+        const title = (document.getElementById('jobTitle')?.value || '').trim();
+        const company = (document.getElementById('companyName')?.value || '').trim();
+        const location = (document.getElementById('location')?.value || '').trim();
+        const salary = (document.getElementById('salaryRange')?.value || '').trim();
+        const empType = (document.getElementById('empType')?.value || '').trim();
+        const expLevel = (document.getElementById('expLevel')?.value || '').trim();
+        const companyProfile = (document.getElementById('companyProfile')?.value || '').trim();
+        const desc = (document.getElementById('jobDesc')?.value || '').trim();
+        const fileInput = document.getElementById('jdFile');
+        const selectedFile = fileInput?.files?.[0];
+
+        // Radio button values
+        const workMode = document.querySelector('input[name="workMode"]:checked')?.value || 'Remote';
+        const feeAsked = document.querySelector('input[name="feeAsked"]:checked')?.value || 'No fee asked';
+
+        if (!title) {
+            alert('Please enter a Job Title.');
+            return;
+        }
+
+        if (!desc && !selectedFile) {
+            alert('Please paste the Job Description or upload a PDF/Word JD document.');
+            return;
+        }
+
+        // Prepare FormData for file & text upload
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('company', company);
+        formData.append('location', `${location} (${workMode})`);
+        formData.append('salary', salary);
+        formData.append('empType', empType);
+        formData.append('expLevel', expLevel);
+        formData.append('companyProfile', companyProfile);
+        formData.append('description', desc);
+        formData.append('feeAsked', feeAsked);
+
+        if (selectedFile) {
+            formData.append('jdFile', selectedFile);
+        }
+
+        // Show loading state
+        btnText.style.display = 'none';
+        btnSpinner.classList.remove('hidden');
+        analyzeBtn.disabled = true;
+
+        try {
+            const response = await fetch('/api/analyze', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                // Animate Radial Score Circle
+                const score = result.score;
+                const circumference = 440;
+                const offset = circumference - (score / 100) * circumference;
+
+                scoreCircle.style.strokeDashoffset = offset;
+
+                let color = '#10b981'; // Green for Safe
+                if (result.status === 'warning') color = '#f59e0b'; // Amber for Suspicious
+                if (result.status === 'danger') color = '#f43f5e';  // Red for High Risk
+
+                scoreCircle.style.stroke = color;
+                scoreValue.style.color = color;
+
+                let current = 0;
+                const step = Math.max(1, Math.floor(score / 30));
+                const interval = setInterval(() => {
+                    current += step;
+                    if (current >= score) {
+                        clearInterval(interval);
+                        scoreValue.innerText = score;
+                    } else {
+                        scoreValue.innerText = current;
+                    }
+                }, 20);
+
+                verdictPill.innerText = result.verdict.toUpperCase();
+                verdictPill.style.backgroundColor = `${color}25`;
+                verdictPill.style.color = color;
+                verdictDesc.innerText = result.reason;
+
+                // Sync Warning Signs Checklist directly with Backend Response
+                if (result.warning_signs) {
+                    const checkPayment = document.querySelector('#checkPayment strong');
+                    if (checkPayment) {
+                        checkPayment.innerText = result.warning_signs.money.text;
+                        checkPayment.className = result.warning_signs.money.is_risk ? 'badge-danger' : 'badge-clean';
+                    }
+
+                    const checkChannels = document.querySelector('#checkChannels strong');
+                    if (checkChannels) {
+                        checkChannels.innerText = result.warning_signs.chat.text;
+                        checkChannels.className = result.warning_signs.chat.is_risk ? 'badge-danger' : 'badge-clean';
+                    }
+
+                    const checkSalary = document.querySelector('#checkSalary strong');
+                    if (checkSalary) {
+                        checkSalary.innerText = result.warning_signs.salary.text;
+                        checkSalary.className = result.warning_signs.salary.is_risk ? 'badge-danger' : 'badge-clean';
+                    }
+
+                    const checkDomain = document.querySelector('#checkDomain strong');
+                    if (checkDomain) {
+                        checkDomain.innerText = result.warning_signs.email.text;
+                        checkDomain.className = result.warning_signs.email.is_risk ? 'badge-danger' : 'badge-clean';
+                    }
+                }
+
+                // Add to history table
+                const tbody = document.querySelector('#scansTable tbody');
+                const emptyRow = document.getElementById('noScansRow');
+                if (emptyRow) emptyRow.remove();
+
+                const tr = document.createElement('tr');
+                tr.className = 'animate-slide-up';
+                tr.innerHTML = `
+                    <td>${result.timestamp}</td>
+                    <td class="font-bold">${result.title}</td>
+                    <td>${result.company}</td>
+                    <td>
+                        <div class="score-tag score-tag-${result.status}">
+                            ${result.score} / 100
+                        </div>
+                    </td>
+                    <td>
+                        <span class="status-badge status-${result.status}">
+                            ${result.verdict}
+                        </span>
+                    </td>
+                `;
+                tbody.prepend(tr);
+
+            } else {
+                alert(result.error || 'Evaluation failed. Please review terminal.');
+            }
+        } catch (err) {
+            console.error(err);
+            alert('Failed to connect to the backend server. Make sure Flask is running.');
+        } finally {
+            btnText.style.display = 'inline';
+            btnSpinner.classList.add('hidden');
+            analyzeBtn.disabled = false;
+        }
+    });
+});
+</script>
+{% endblock %}

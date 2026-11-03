@@ -1,0 +1,358 @@
+{% extends 'base.html' %}
+{% block title %}Candidate Home - TamScam Detector{% endblock %}
+
+{% block content %}
+<div class="home-container-wide animate-fade-in">
+
+    <!-- 1. FULL-WIDTH SCAM ALERT CAROUSEL -->
+    <section class="home-section">
+        <div class="glass-card atomic-carousel-card">
+            <div class="carousel-wrapper">
+                <!-- Left: Dynamic Slides -->
+                <div class="carousel-text-container">
+                    <div class="carousel-alert-tag">
+                        <span class="pulse-core"></span>
+                        <span>RECENT JOB SCAM WARNINGS</span>
+                    </div>
+
+                    <div class="scam-slides" id="atomCarousel">
+                        <!-- Slide 1 -->
+                        <div class="atom-slide active">
+                            <span class="slide-category text-rose">WARNING #1</span>
+                            <h2 class="slide-big-title">The "Registration Fee" Trap</h2>
+                            <p class="slide-desc">
+                                Real employers never demand payment for training kits, application forms, software installation, or security deposits.
+                            </p>
+                            <div class="slide-stat-tag">
+                                <strong>Safety Tip:</strong> Never pay money to receive a job offer.
+                            </div>
+                        </div>
+
+                        <!-- Slide 2 -->
+                        <div class="atom-slide">
+                            <span class="slide-category text-blue">WARNING #2</span>
+                            <h2 class="slide-big-title">Interviews on Telegram & WhatsApp</h2>
+                            <p class="slide-desc">
+                                Be careful when recruiters refuse official video calls or corporate email threads and insist on chatting strictly via messaging apps.
+                            </p>
+                            <div class="slide-stat-tag">
+                                <strong>Safety Tip:</strong> Always verify job listings on the company’s official careers page.
+                            </div>
+                        </div>
+
+                        <!-- Slide 3 -->
+                        <div class="atom-slide">
+                            <span class="slide-category text-amber">WARNING #3</span>
+                            <h2 class="slide-big-title">Too-Good-To-Be-True Salaries</h2>
+                            <p class="slide-desc">
+                                Promising ₹50,000/week or $500/day for simple typing or copy-paste tasks with no experience required is a classic sign of fraud.
+                            </p>
+                            <div class="slide-stat-tag">
+                                <strong>Safety Tip:</strong> Check market rates for entry-level jobs before applying.
+                            </div>
+                        </div>
+
+                        <!-- Slide 4 -->
+                        <div class="atom-slide">
+                            <span class="slide-category text-emerald">AI PROTECTION</span>
+                            <h2 class="slide-big-title">Instant Scam Score Evaluation</h2>
+                            <p class="slide-desc">
+                                Our machine learning model reads the job description text and flags suspicious word patterns, informal emails, and fee demands automatically.
+                            </p>
+                            <div class="slide-stat-tag">
+                                <strong>Detection Engine:</strong> Trained on 86,933 real job listings.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide Navigation Dots -->
+                    <div class="atom-carousel-dots">
+                        <button type="button" class="dot-btn active" data-slide="0"></button>
+                        <button type="button" class="dot-btn" data-slide="1"></button>
+                        <button type="button" class="dot-btn" data-slide="2"></button>
+                        <button type="button" class="dot-btn" data-slide="3"></button>
+                    </div>
+                </div>
+
+                <!-- Right: Cyber Orbit Graphic with Shield Icon -->
+                <div class="atom-stage-container">
+                    <div class="atom-system">
+                        <div class="atom-nucleus">
+                            <span class="nucleus-icon">🛡️</span>
+                        </div>
+
+                        <div class="orbit-ring orbit-ring-1">
+                            <div class="electron electron-1"></div>
+                        </div>
+                        <div class="orbit-ring orbit-ring-2">
+                            <div class="electron electron-2"></div>
+                        </div>
+                        <div class="orbit-ring orbit-ring-3">
+                            <div class="electron electron-3"></div>
+                        </div>
+
+                        <div class="energy-glow-ring"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. WELCOME BANNER (BELOW CAROUSEL) -->
+    <section class="home-section">
+        <div class="glass-card welcome-horizontal-card">
+            <div class="welcome-horizontal-content">
+                <div>
+                    <div class="status-pill-badge mb-2">
+                        <span class="pulse-indicator"></span>
+                        <span>Scanner Active</span>
+                    </div>
+                    <h2 class="welcome-heading">Welcome back, <span class="glow-accent">{{ username }}</span>!</h2>
+                    <p class="welcome-text m-0">
+                        Received an offer letter or job description? Scan it now to calculate an instant scam threat score.
+                    </p>
+                </div>
+                <div class="welcome-cta">
+                    <a href="{{ url_for('user_scan') }}" class="btn btn-glow btn-lg-action">
+                        <span>Scan a Job Posting Now &rarr;</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. DYNAMIC ASYMMETRICAL METRIC STAT CARDS (BIG - SMALL - BIG) -->
+    <section class="home-section stats-stage-section">
+        <div class="asymmetric-stats-grid">
+            
+            <!-- Card 1: WIDE & BOLD (Jobs Scanned) -->
+            <div class="glass-card stat-metric-box stat-card-wide card-glow-blue interactive-card">
+                <div class="stat-inner-flex">
+                    <div class="metric-icon-large bg-indigo-gradient">
+                        <span>📊</span>
+                    </div>
+                    <div class="metric-data-wrap">
+                        <div class="metric-header-tag text-blue">TOTAL ACTIVITY</div>
+                        <span class="metric-num-hero count-up text-glow-blue" data-target="{{ total_scanned }}">0</span>
+                        <div class="metric-label-hero">Jobs Scanned by You</div>
+                        <div class="metric-sub-detail">Full database telemetry history</div>
+                    </div>
+                </div>
+                <div class="card-ambient-orb orb-blue"></div>
+            </div>
+
+            <!-- Card 2: COMPACT ACCENT (Threats Caught) -->
+            <div class="glass-card stat-metric-box stat-card-compact card-glow-red interactive-card">
+                <div class="stat-compact-flex">
+                    <div class="metric-icon-compact bg-rose-gradient">
+                        <span>🚨</span>
+                    </div>
+                    <div class="metric-header-tag text-rose">THREATS</div>
+                    <span class="metric-num-compact text-rose count-up text-glow-red" data-target="{{ scams_caught }}">0</span>
+                    <div class="metric-label-compact">Risky Scams Intercepted</div>
+                    <span class="threat-ratio-badge">
+                        {% if total_scanned > 0 %}
+                            {{ ((scams_caught / total_scanned) * 100)|round(0)|int }}% flagged
+                        {% else %}
+                            0%
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="card-ambient-orb orb-red"></div>
+            </div>
+
+            <!-- Card 3: WIDE & BOLD (Verified Safe) -->
+            <div class="glass-card stat-metric-box stat-card-wide card-glow-green interactive-card">
+                <div class="stat-inner-flex">
+                    <div class="metric-icon-large bg-emerald-gradient">
+                        <span>✅</span>
+                    </div>
+                    <div class="metric-data-wrap">
+                        <div class="metric-header-tag text-emerald">AUTHENTICATED</div>
+                        <span class="metric-num-hero text-emerald count-up text-glow-green" data-target="{{ safe_offers }}">0</span>
+                        <div class="metric-label-hero">Verified Safe Offers</div>
+                        <div class="metric-sub-detail">Legitimate corporate standards verified</div>
+                    </div>
+                </div>
+                <div class="card-ambient-orb orb-green"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 4. HOW IT WORKS SECTION -->
+    <section class="home-section">
+        <div class="section-title-wrap text-center mb-4">
+            <h2 class="section-title">How TamScam Protects Your Job Search</h2>
+            <p class="section-subtitle">Multi-layered AI verification designed to spot recruitment fraud instantly.</p>
+        </div>
+
+        <div class="intel-grid">
+            <div class="glass-card intel-box hover-lift">
+                <div class="card-step-badge">STEP 01</div>
+                <div class="intel-icon">🔍</div>
+                <h3>Text & Word Pattern Check</h3>
+                <p>Our model checks the text for suspicious phrases, rushed hiring pressure, and vague job duties.</p>
+            </div>
+
+            <div class="glass-card intel-box hover-lift">
+                <div class="card-step-badge">STEP 02</div>
+                <div class="intel-icon">🛡️</div>
+                <h3>Money & Deposit Trap Check</h3>
+                <p>Detects hidden fee requests, laptop purchase reimbursements, and wire transfer requirements.</p>
+            </div>
+
+            <div class="glass-card intel-box hover-lift">
+                <div class="card-step-badge">STEP 03</div>
+                <div class="intel-icon">⚡</div>
+                <h3>Instant Safety Score</h3>
+                <p>Calculates a 0 to 100 risk score and gives clear advice on whether you should apply or stay away.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. SAFETY CHECKLIST SECTION -->
+    <section class="home-section">
+        <div class="glass-card checklist-banner">
+            <div class="checklist-header">
+                <h3>📋 Quick Safety Checklist for Candidates</h3>
+                <p>Keep these four rules in mind whenever you receive an unsolicited job email:</p>
+            </div>
+            <div class="checklist-grid">
+                <div class="check-item">
+                    <span class="check-mark">✓</span>
+                    <div>
+                        <strong>Check the Sender Email</strong>
+                        <p class="m-0 text-muted">Legitimate recruiters use official corporate emails, not free Gmail or Yahoo accounts.</p>
+                    </div>
+                </div>
+                <div class="check-item">
+                    <span class="check-mark">✓</span>
+                    <div>
+                        <strong>Never Pay Any Upfront Fee</strong>
+                        <p class="m-0 text-muted">Genuine companies pay you; they will never ask you to pay for job applications or laptops.</p>
+                    </div>
+                </div>
+                <div class="check-item">
+                    <span class="check-mark">✓</span>
+                    <div>
+                        <strong>Verify on Career Websites</strong>
+                        <p class="m-0 text-muted">Check the company's official careers portal to see if the job vacancy actually exists.</p>
+                    </div>
+                </div>
+                <div class="check-item">
+                    <span class="check-mark">✓</span>
+                    <div>
+                        <strong>Protect Personal Details</strong>
+                        <p class="m-0 text-muted">Never share bank account details, UPI passwords, or IDs before signing a verified contract.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<!-- Footer -->
+<footer class="app-footer">
+    <div class="footer-container">
+        <div class="footer-col">
+            <div class="footer-brand">
+                <span class="radar-dot-small"></span>
+                <strong>TamScam <span class="text-blue">Detector</span></strong>
+            </div>
+            <p class="footer-text">
+                An AI-assisted system built to help students and job seekers spot recruitment fraud safely.
+            </p>
+        </div>
+        <div class="footer-col">
+            <div class="footer-title">Quick Navigation</div>
+            <ul class="footer-links">
+                <li><a href="{{ url_for('user_home') }}">Home</a></li>
+                <li><a href="{{ url_for('user_scan') }}">Scan Job Offer</a></li>
+                <li><a href="{{ url_for('logout') }}">Sign Out</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <div class="footer-title">AI Engine</div>
+            <p class="footer-text">
+                Trained on 86,933 real job listings using Linear SVM + Deep Neural Network hybrid machine learning.
+            </p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2026 TamScamDetector. Built for safe career opportunities From Tamanna Parmar.</span>
+    </div>
+</footer>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Counter Roll-up Animation
+    const counters = document.querySelectorAll('.count-up');
+    counters.forEach(counter => {
+        const target = parseInt(counter.getAttribute('data-target'), 10) || 0;
+        if (target === 0) {
+            counter.innerText = "0";
+            return;
+        }
+        let current = 0;
+        const step = Math.max(1, Math.ceil(target / 30));
+        const timer = setInterval(() => {
+            current += step;
+            if (current >= target) {
+                counter.innerText = target;
+                clearInterval(timer);
+            } else {
+                counter.innerText = current;
+            }
+        }, 25);
+    });
+
+    // 2. Full-Width Carousel Auto-Rotation & Dot Clicks
+    const slides = document.querySelectorAll('.atom-slide');
+    const dots = document.querySelectorAll('.atom-carousel-dots .dot-btn');
+    let currentIdx = 0;
+    const slideDuration = 4500;
+
+    function activateSlide(idx) {
+        slides.forEach(s => s.classList.remove('active'));
+        dots.forEach(d => d.classList.remove('active'));
+
+        currentIdx = (idx + slides.length) % slides.length;
+        slides[currentIdx].classList.add('active');
+        dots[currentIdx].classList.add('active');
+    }
+
+    let interval = setInterval(() => {
+        activateSlide(currentIdx + 1);
+    }, slideDuration);
+
+    dots.forEach(dot => {
+        dot.addEventListener('click', (e) => {
+            clearInterval(interval);
+            const targetSlide = parseInt(e.target.getAttribute('data-slide'), 10);
+            activateSlide(targetSlide);
+            interval = setInterval(() => {
+                activateSlide(currentIdx + 1);
+            }, slideDuration);
+        });
+    });
+
+    // 3. Card 3D Interactive Tilt
+    const cards = document.querySelectorAll('.interactive-card');
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            card.style.transform = `perspective(1000px) rotateX(${-y / 15}deg) rotateY(${x / 15}deg) translateY(-4px)`;
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+        });
+    });
+});
+</script>
+{% endblock %}

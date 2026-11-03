@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Register - TamScam Radar{% endblock %}
+
+{% block content %}
+<div class="auth-center-layout animate-slide-up">
+    <div class="glass-card auth-box">
+        <a href="{{ url_for('portal_select') }}" class="back-link">&larr; Back to Gateways</a>
+        
+        <div class="auth-header">
+            <h2 class="auth-title">Candidate Registration</h2>
+            <p class="auth-subtitle">Create your personal account to scan jobs with TamScam Radar.</p>
+        </div>
+
+        <form action="{{ url_for('user_register') }}" method="POST" class="auth-form strict-validate" novalidate>
+            <div class="input-field-group">
+                <label for="username">Username <span class="req">*</span></label>
+                <input type="text" id="username" name="username" placeholder="user_abc" required autofocus autocomplete="off">
+            </div>
+
+            <div class="input-field-group">
+                <label for="email">Email Address <span class="req">*</span></label>
+                <input type="email" id="email" name="email" placeholder="abc@example.com" required autocomplete="off">
+            </div>
+
+            <div class="input-field-group">
+                <label for="password">Password <span class="req">*</span></label>
+                <input type="password" id="password" name="password" placeholder="••••••••" required>
+                <div class="password-guidelines" id="passRules">
+                    <small>Must be 8+ characters with uppercase, lowercase, number, and special symbol (@$!%*?&#).</small>
+                </div>
+            </div>
+
+            <div class="input-field-group">
+                <label for="confirm_password">Confirm Password <span class="req">*</span></label>
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="••••••••" required>
+            </div>
+
+            <button type="submit" class="btn btn-glow btn-full mt-4">
+                <span>Complete Registration</span>
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            Already registered? <a href="{{ url_for('user_login') }}" class="link-glow">Log in here</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

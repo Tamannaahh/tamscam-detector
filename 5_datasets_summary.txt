@@ -1,0 +1,35 @@
+==========================================================================================================================================================
+                                               FAKE JOB DETECTION: 5 DATASETS CONSOLIDATION SUMMARY TABLE
+==========================================================================================================================================================
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+Dataset Name   | Raw File Name                                | Text Columns Combined (Features)into clean_text | Original Target   | Target Mapping (0 / 1)
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+Dataset 1      | cleaned_fake_jobs.csv                        | title, company_profile, description,         | fraudulent        | 0 = Real
+               | (fake_job_postings.csv)                      | requirements, benefits                       |                   | 1 = Fake
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+Dataset 2      | cleaned_fake_jobs_dataset2.csv               | job_title, company_profile, job_desc,        | fraudulent        | 0.0 -> 0 = Real
+               | (Dataset2.xlsx / Dataset2.csv)               | skills_desc, employment_type, salary_range   |                   | 1.0 -> 1 = Fake
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+Dataset 3      | cleaned_fake_jobs_dataset3.csv               | internship_title, employment_type,           | is_fake_posting   | 0 = Real
+               | (fake_internship_detection_dataset.csv)      | work_mode, industry, location, company_name, |                   | 1 = Fake
+               |                                              | company_size, recruiter_email_type           |                   |
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+Dataset 4      | cleaned_fake_jobs_dataset4.csv               | Job_Title, Company_Type, Employment_Type     | Label             | 'Real' -> 0 = Real
+               | (Fake_Job_Posting_Detection_Dataset.csv)     |                                              |                   | 'Fake' -> 1 = Fake
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+Dataset 5      | cleaned_fake_jobs_dataset5.csv               | Job Title, Job Description                   | Is Fake           | 'Human-Written' -> 0 = Real
+               | (Final_Job_Postings_Dataset.csv)             |                                              |                   | 'Fake' / 'AI-Generated' -> 1 = Fake
+==========================================================================================================================================================
+
+==========================================================================================================================================================
+                                                         MASTER COMBINED DATASET OVERVIEW
+==========================================================================================================================================================
+* Master File Name   : master_combined_dataset.csv
+* Total Rows Merged  : 86,934 rows
+* Total Real (Class 0): 68,136 rows
+* Total Fake (Class 1): 18,798 rows
+* Cleaned Columns    : ['clean_text', 'fraudulent']
+* Text Representation: TF-IDF Vectorizer (5,000 max features, English stop words removed)
+* Winning Algorithm  : Support Vector Machine / LinearSVC (Accuracy: 91.58% | F1-Score: 0.7598)
+==========================================================================================================================================================

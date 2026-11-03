@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard - Fake Job Detection{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <h2>Job Detection Dashboard</h2>
+    <div>
+        <span>Logged in as: <strong>{{ username }}</strong></span>
+        <a href="{{ url_for('logout') }}" class="btn btn-secondary">Logout</a>
+    </div>
+</div>
+<hr>
+<p>Authentication setup complete. Next, we will connect the input form to your master model!</p>
+{% endblock %}
