@@ -41,7 +41,7 @@ Set `SECRET_KEY` and the admin credentials as environment variables before any r
 
 ## Datasets
 Dataset 1: [Real / Fake Job Posting Prediction (Kaggle)](https://www.kaggle.com/datasets/shivamb/real-or-fake-fake-jobposting-prediction)
-Datasets 2–5: [add your Kaggle links]
+
 
 ## Limitations
 English text only · recall is about 63% · no employer verification · some datasets may be synthetic.
